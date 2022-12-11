@@ -1,0 +1,31 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true,
+        "jest/globals": true
+    },
+    "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "babelOptions": {
+            "configFile": "./babel.config.js"
+        }
+    },
+    "plugins": ["react", "jest"],
+    "rules": {
+        "indent": ["warn", "tab", { "SwitchCase": 1 }],
+        "quotes": ["error", "double"],
+        "semi": ["error", "always"],
+        "react/react-in-jsx-scope": "off",
+        "react/no-unescaped-entities": "off"
+    },
+    "settings": {
+        "react":{"version": "18.1.0"}
+    }
+}
