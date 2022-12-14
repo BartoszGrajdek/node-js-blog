@@ -1,12 +1,28 @@
-import express from 'express';
-import bodyParser from 'body-parser';
+import "reflect-metadata";
+import express, { Application } from "express";
+import morgan from "morgan";
+import swaggerUi from "swagger-ui-express";
 
-import todosRoutes from './routes/todos';
+import Router from "./routes";
 
-const app = express();
+const PORT = process.env.PORT || 8002;
 
-app.use(bodyParser.json());
+const app: Application = express();
 
-app.use(todosRoutes);
+app.use(express.json());
+app.use(morgan("tiny"));
+app.use(express.static("public"));
 
-app.listen(8002);
+app.use(
+  "/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(undefined, {
+    swaggerOptions: {
+      url: "/swagger.json",
+    },
+  })
+);
+
+app.use(Router);
+
+app.listen(PORT)

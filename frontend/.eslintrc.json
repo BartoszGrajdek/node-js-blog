@@ -20,6 +20,7 @@
     "plugins": ["react", "jest"],
     "rules": {
         "indent": ["warn", "tab", { "SwitchCase": 1 }],
+        "no-unused-vars": "off",
         "quotes": ["error", "double"],
         "semi": ["error", "always"],
         "react/react-in-jsx-scope": "off",

@@ -6,6 +6,8 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . ./
+COPY . .
+
+EXPOSE 8002
 
 CMD ["npm", "run", "dev"]

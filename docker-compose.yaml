@@ -1,25 +1,5 @@
 version: "3.1"
 services: 
-  panel:
-    image: frontend
-    build: 
-      context: ./frontend-panel
-      dockerfile: ./Dockerfile
-    restart: always
-    ports: 
-      - "8001:8001"
-  
-  backend:
-    image: backend
-    build: 
-      context: ./backend
-      dockerfile: ./Dockerfile
-    restart: always
-    ports: 
-      - "8002:8002"
-    volumes:
-      - ./backend/src:/app/backend/src
-      
   mongodb:
     container_name: mongo-dev
     image: mongo
@@ -29,10 +9,14 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=pass
     ports:
       - '27017:27017'
-      
+    volumes:
+        - mongodata:/data/db
+    command: mongod
+          
   mongo-express:
     container_name: mongo-express
     image: mongo-express
+    restart: always
     depends_on:
       - mongodb
     environment:
@@ -41,3 +25,26 @@ services:
       - ME_CONFIG_MONGODB_SERVER=mongo-dev
     ports:
       - '8081:8081'
+  
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: ./Dockerfile
+    restart: always
+    ports: 
+      - "8002:8002"
+    volumes:
+      - ./backend/src:/app/backend/src
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    restart: always
+    ports: 
+      - "8001:8001"
+    volumes:
+      - ./frontend/src:/app/frontend/src
+
+volumes:
+  mongodata:
