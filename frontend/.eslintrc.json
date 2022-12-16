@@ -24,7 +24,8 @@
         "quotes": ["error", "double"],
         "semi": ["error", "always"],
         "react/react-in-jsx-scope": "off",
-        "react/no-unescaped-entities": "off"
+        "react/no-unescaped-entities": "off",
+        "no-undef": "off"
     },
     "settings": {
         "react":{"version": "18.1.0"}
