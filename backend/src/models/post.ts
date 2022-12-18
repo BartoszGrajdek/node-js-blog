@@ -1,33 +1,38 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany,CreateDateColumn, UpdateDateColumn, JoinColumn} from "typeorm";
-import { Comment } from "./comment";
-import { User } from "./user";
+import { ObjectId } from "mongodb";
+import { postStatus } from "../types/postStatus";
 
-@Entity()
+export interface PostInterface {
+    _id: ObjectId | null,
+    title: string,
+    status: postStatus
+    description: string,
+    createdAt: Date,
+    updatedAt: Date,
+    author: string,
+    tags: Array<number>,
+    categories: Array<number>,
+}
+
 export class Post {
+    _id: ObjectId | null;
+    title: string;
+    status: postStatus;
+    description: string;
+    createdAt: Date;
+    updatedAt: Date;
+    author: string;
+    tags: Array<number>;
+    categories: Array<number>;
 
-    @PrimaryGeneratedColumn()
-    id!: number;
-
-    @Column()
-    title!: string;
-
-    @Column({
-        type: 'text'
-    })
-    content!: string;
-
-    @Column({ nullable: true })
-    userId!: number;
-    @ManyToOne(_type => User, (user: User) => user.posts)
-    @JoinColumn()
-    user!: User;
-
-    @OneToMany(_type=> Comment, (comment: Comment) => comment.post)
-    comments!: Array<Comment>;
-
-    @CreateDateColumn()
-    createdAt!: Date;
-
-    @UpdateDateColumn()
-    updatedAt!: Date;
+    constructor(_id: ObjectId | null, title: string, status: postStatus, description: string, createdAt: Date, updatedAt: Date, author: string, tags: Array<number>, categories: Array<number>) {
+        this._id = _id;
+        this.title = title;
+        this.status = status;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.author = author;
+        this.tags = tags;
+        this.categories = categories;
+    }
 }

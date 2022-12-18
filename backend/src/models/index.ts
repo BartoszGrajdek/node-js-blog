@@ -1,4 +1,2 @@
-import {User} from './user'
-import {Post} from './post'
-import {Comment} from './comment'
-export {User, Post, Comment}
+import {Post, PostInterface} from './post'
+export {Post, PostInterface}

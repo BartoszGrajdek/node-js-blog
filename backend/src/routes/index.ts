@@ -1,12 +1,15 @@
 import express from "express";
-import PingController from "../controllers/ping.controller";
+import CategoryController from "../controllers/category.controller";
+import { postRoutes } from "./postRoutes";
+import { categoryRoutes } from "./categoryRoutes";
+import { tagRoutes } from "./tagRoutes";
 
 const router = express.Router();
 
-router.get("/ping", async (_req, res) => {
-  const controller = new PingController();
-  const response = await controller.getMessage();
-  return res.send(response);
-});
+postRoutes(router);
+
+categoryRoutes(router);
+
+tagRoutes(router);
 
 export default router;
