@@ -10,11 +10,13 @@ interface clientObject {
 let _db: databaseConnection = undefined;
 
 const mongoConnect = (callback: () => void) => {
-    MongoClient.connect('mongodb://admin:pass@mongodb:27017/blog?authMechanism=DEFAULT&authSource=admin', {useUnifiedTopology: true}).then((client: clientObject) => {
+    MongoClient.connect('mongodb://admin:pass@mongodb:27017/blog?authMechanism=DEFAULT&authSource=admin', {useUnifiedTopology: true})
+    .then((client: clientObject) => {
         console.log('connected');
         _db = client.db();
         callback();
-    }).catch((err: object) => {
+    })
+    .catch((err: object) => {
         console.log(err);
         throw err;
     })
