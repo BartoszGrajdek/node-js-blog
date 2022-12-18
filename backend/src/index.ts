@@ -3,7 +3,9 @@ import express, { Application } from "express";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 
+
 import Router from "./routes";
+const mongoConnect: (callback: () => void) => void = require('./utils/database').mongoConnect;
 
 const PORT = process.env.PORT || 8002;
 
@@ -25,4 +27,7 @@ app.use(
 
 app.use(Router);
 
-app.listen(PORT)
+mongoConnect(() => {
+  app.listen(PORT);
+})
+
