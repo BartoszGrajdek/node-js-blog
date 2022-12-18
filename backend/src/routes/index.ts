@@ -8,5 +8,5 @@ router.get("/ping", async (_req, res) => {
   const response = await controller.getMessage();
   return res.send(response);
 });
-//test
+
 export default router;

@@ -1,17 +1,19 @@
 version: "3.1"
-services: 
+services:       
   mongodb:
     container_name: mongo-dev
     image: mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_DATABASE=auth
+      - MONGO_INITDB_DATABASE=blog
       - MONGO_INITDB_ROOT_PASSWORD=pass
     ports:
       - '27017:27017'
     volumes:
         - mongodata:/data/db
     command: mongod
+    expose:
+      - 27017
           
   mongo-express:
     container_name: mongo-express
@@ -25,16 +27,20 @@ services:
       - ME_CONFIG_MONGODB_SERVER=mongo-dev
     ports:
       - '8081:8081'
-  
+
   backend:
     build: 
       context: ./backend
       dockerfile: ./Dockerfile
     restart: always
+    depends_on:
+      - mongodb
     ports: 
       - "8002:8002"
     volumes:
       - ./backend/src:/app/backend/src
+    links:
+      - mongodb
 
   frontend:
     build: 
