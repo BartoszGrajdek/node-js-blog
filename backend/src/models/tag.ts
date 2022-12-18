@@ -1,14 +1,14 @@
 import { ObjectId } from "mongodb";
 import { Font } from "../types/taxonomy";
 
-export interface CategoryInterface {
+export interface TagInterface {
     _id: ObjectId | null,
     name: string,
     font: Font,
     color: string
 }
 
-export class Category {
+export class Tag {
     _id: ObjectId | null;
     name: string;
     font: Font;

@@ -1,42 +1,15 @@
 import express from "express";
-import PostController from "../controllers/post.controller";
+import CategoryController from "../controllers/category.controller";
+import { postRoutes } from "./postRoutes";
+import { categoryRoutes } from "./categoryRoutes";
+import { tagRoutes } from "./tagRoutes";
 
 const router = express.Router();
 
-router.get("/posts", async (_req, res) => {
-  const controller = new PostController();
-  const response = await controller.getPosts();
-  return res.send(response);
-});
+postRoutes(router);
 
-router.get("/posts/:postId", async (_req, res) => {
-  const controller = new PostController();
-  const response = await controller.getPost(_req.params.postId);
-  return res.send(response);
-});
+categoryRoutes(router);
 
-router.post("/posts", async (_req, res) => {
-  const controller = new PostController();
-  const response = await controller.addPost(_req.body);
-  return res.status(response.status).send(response.message);
-});
-
-router.put("/posts/:postId", async (_req, res) => {
-  const controller = new PostController();
-  const response = await controller.editPost(_req.params.postId, _req.body);
-  return res.status(response.status).send(response.message);
-});
-
-router.delete("/posts/:postId", async (_req, res) => {
-  const controller = new PostController();
-  const response = await controller.deletePost(_req.params.postId);
-  return res.status(response.status).send(response.message);
-});
-
-router.post("/posts/delete", async (_req, res) => {
-  const controller = new PostController();
-  const response = await controller.deletePosts(_req.body);
-  return res.status(response.status).send(response.message);
-});
+tagRoutes(router);
 
 export default router;
