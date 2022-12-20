@@ -32,7 +32,7 @@ interface DeletePostsBody {
 }
 
 @Route("posts")
-@Tags('Post')
+@Tags('Posts')
 export default class PostController extends Controller {
 
   /** 
