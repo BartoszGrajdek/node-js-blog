@@ -11,3 +11,14 @@ export async function getPostsList() {
 			return err.response;
 		});
 }
+
+export async function deletePosts(ids: Array<string>) {
+	return axios
+		.post(`${API_URL}/posts/delete`, { posts: ids }, { headers: { "Access-Control-Allow-Origin": "*" } })
+		.then((res) => {
+			if (res.status < 300 && res.status > 199) return res;
+		})
+		.catch((err) => {
+			return err.response;
+		});
+}

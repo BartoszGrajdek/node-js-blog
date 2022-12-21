@@ -21,6 +21,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { PostInterface } from "../../types/post";
+import { Link } from "@mui/material";
+import { deletePosts } from "../../api/posts/posts";
 
 interface HeadCell {
 	id: keyof PostInterface;
@@ -114,10 +116,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
 	numSelected: number;
+	deleteHandler: () => void;
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-	const { numSelected } = props;
+	const { numSelected, deleteHandler } = props;
 
 	return (
 		<Toolbar
@@ -138,16 +141,10 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 					Posts
 				</Typography>
 			)}
-			{numSelected > 0 ? (
+			{numSelected > 0 && (
 				<Tooltip title="Delete">
-					<IconButton>
+					<IconButton onClick={() => deleteHandler()}>
 						<DeleteIcon />
-					</IconButton>
-				</Tooltip>
-			) : (
-				<Tooltip title="Filter list">
-					<IconButton>
-						<FilterListIcon />
 					</IconButton>
 				</Tooltip>
 			)}
@@ -155,7 +152,15 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 	);
 }
 
-export function PostsTable({ data }: { data: Array<PostInterface> }) {
+export function PostsTable({
+	data,
+	setAlert,
+	refetch,
+}: {
+	data: Array<PostInterface>;
+	setAlert: React.Dispatch<React.SetStateAction<string>>;
+	refetch: any;
+}) {
 	const [rows, setRows] = React.useState(data);
 	const [selected, setSelected] = React.useState<readonly string[]>([]);
 	const [page, setPage] = React.useState(0);
@@ -166,21 +171,32 @@ export function PostsTable({ data }: { data: Array<PostInterface> }) {
 		setRows(data);
 	}, [data]);
 
+	const deleteHandler = async () => {
+		const response = await deletePosts([...selected]);
+		console.log(response);
+		setAlert(response.status > 199 && response.status < 300 ? "success" : "error");
+
+		if (response.status > 199 && response.status < 300) {
+			setSelected([]);
+			refetch();
+		}
+	};
+
 	const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
-			const newSelected = rows.map((n) => n.title);
+			const newSelected = rows.map((n) => n._id);
 			setSelected(newSelected);
 			return;
 		}
 		setSelected([]);
 	};
 
-	const handleClick = (event: React.MouseEvent<unknown>, title: string) => {
-		const selectedIndex = selected.indexOf(title);
+	const handleClick = (event: React.MouseEvent<unknown>, _id: string) => {
+		const selectedIndex = selected.indexOf(_id);
 		let newSelected: readonly string[] = [];
 
 		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(selected, title);
+			newSelected = newSelected.concat(selected, _id);
 		} else if (selectedIndex === 0) {
 			newSelected = newSelected.concat(selected.slice(1));
 		} else if (selectedIndex === selected.length - 1) {
@@ -188,7 +204,7 @@ export function PostsTable({ data }: { data: Array<PostInterface> }) {
 		} else if (selectedIndex > 0) {
 			newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
 		}
-
+		console.log(newSelected);
 		setSelected(newSelected);
 	};
 
@@ -213,13 +229,13 @@ export function PostsTable({ data }: { data: Array<PostInterface> }) {
 	return (
 		<Box sx={{ width: "100%" }}>
 			<Paper sx={{ width: "100%", mb: 2 }}>
-				<EnhancedTableToolbar numSelected={selected.length} />
+				<EnhancedTableToolbar numSelected={selected.length} deleteHandler={deleteHandler} />
 				<TableContainer>
 					<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? "small" : "medium"}>
 						<EnhancedTableHead numSelected={selected.length} onSelectAllClick={handleSelectAllClick} rowCount={rows.length} />
 						<TableBody>
 							{rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-								const isItemSelected = isSelected(row.title);
+								const isItemSelected = isSelected(row._id);
 								const labelId = `enhanced-table-checkbox-${index}`;
 								row.createdAt = new Date(row.createdAt);
 								row.updatedAt = new Date(row.updatedAt);
@@ -227,11 +243,11 @@ export function PostsTable({ data }: { data: Array<PostInterface> }) {
 								return (
 									<TableRow
 										hover
-										onClick={(event) => handleClick(event, row.title)}
+										onClick={(event) => handleClick(event, row._id)}
 										role="checkbox"
 										aria-checked={isItemSelected}
 										tabIndex={-1}
-										key={row.title}
+										key={row._id}
 										selected={isItemSelected}
 									>
 										<TableCell padding="checkbox">
@@ -270,7 +286,7 @@ export function PostsTable({ data }: { data: Array<PostInterface> }) {
 											{row.author}
 										</TableCell>
 										<TableCell align="left" padding="none">
-											Edit
+											<Link href={`/posts/${row._id}`}>Edit</Link>
 										</TableCell>
 									</TableRow>
 								);

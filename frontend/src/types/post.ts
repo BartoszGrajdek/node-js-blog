@@ -5,7 +5,7 @@ export enum postStatus {
 }
 
 export interface PostInterface {
-    _id: string | null,
+    _id: string,
     title: string,
     status: postStatus
     description: string,
