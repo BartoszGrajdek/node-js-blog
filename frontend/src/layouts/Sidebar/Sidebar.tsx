@@ -38,12 +38,14 @@ export const Sidebar = ({ drawerOpen, toggleDrawer }: { drawerOpen: boolean; tog
 						<ListItemText primary="Dashboard" />
 					</ListItemButton>
 				</Link>
-				<ListItemButton>
-					<ListItemIcon>
-						<CreateIcon />
-					</ListItemIcon>
-					<ListItemText primary="Add post" />
-				</ListItemButton>
+				<Link href="/add-post">
+					<ListItemButton>
+						<ListItemIcon>
+							<CreateIcon />
+						</ListItemIcon>
+						<ListItemText primary="Add post" />
+					</ListItemButton>
+				</Link>
 				<Link href={"/posts"}>
 					<ListItemButton>
 						<ListItemIcon>

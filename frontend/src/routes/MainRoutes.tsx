@@ -2,6 +2,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { DashboardPage } from "../pages/DashboardPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import { PostsPage } from "../pages/PostsPage";
+import { AddPostPage } from "../pages/AddPostPage";
 
 export const LocationDisplay = () => {
 	const location = useLocation();
@@ -14,6 +15,7 @@ export function MainRoutes() {
 		<Routes>
 			<Route path="/" element={<Navigate to="/dashboard" replace />} />
 			<Route path="/dashboard" element={<DashboardPage />} />
+			<Route path="/add-post" element={<AddPostPage />} />
 			<Route path="/posts" element={<PostsPage />} />
 			<Route path="/404" element={<NotFoundPage />} />
 			<Route path="*" element={<Navigate to="/404" replace />} />

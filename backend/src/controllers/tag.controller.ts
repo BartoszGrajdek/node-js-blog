@@ -41,6 +41,7 @@ export default class TagController extends Controller {
         .then((tags: Array<TagInterface>) => {
             const resTags: Array<TagInterface> = [];
             for (const tag of tags) {
+                console.log(JSON.stringify(tag, null, 2));
                 resTags.push(new TagClass(tag._id, tag.name, tag.font, tag.color));
             }
             return resTags;
