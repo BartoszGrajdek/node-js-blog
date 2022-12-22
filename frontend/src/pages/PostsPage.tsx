@@ -2,7 +2,6 @@ import { useQuery } from "react-query";
 import { getPostsList } from "../api/posts/posts";
 import { Alert, Typography } from "@mui/material";
 import { PostsTable } from "../components/Posts/PostsTable";
-import { PostInterface } from "../types/post";
 import { Dispatch, SetStateAction, useState } from "react";
 
 export const PostsPage = () => {
