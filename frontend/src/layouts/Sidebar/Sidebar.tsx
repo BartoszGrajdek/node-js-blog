@@ -14,7 +14,6 @@ import { Drawer } from "./Drawer/Drawer";
 import { Link, ListItemButton, ListItemIcon, ListItemText, Toolbar } from "@mui/material";
 
 export const Sidebar = ({ drawerOpen, toggleDrawer }: { drawerOpen: boolean; toggleDrawer: () => void }) => {
-	//test
 	return (
 		<Drawer variant="permanent" open={drawerOpen}>
 			<Toolbar
