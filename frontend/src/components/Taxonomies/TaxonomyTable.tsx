@@ -15,53 +15,39 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { PostInterface } from "../../types/post";
 import { Link } from "@mui/material";
 import { deletePosts } from "../../api/posts/posts";
+import { TaxonomyInterface } from "../../types/taxonomy";
 
 interface HeadCell {
-	id: keyof PostInterface;
+	id: keyof TaxonomyInterface;
 	disablePadding: boolean;
 	label: string;
 	numeric: boolean;
 }
 
+interface DeleteResponse {
+	status: number;
+}
+
 const headCells: readonly HeadCell[] = [
 	{
-		id: "title",
+		id: "name",
 		numeric: false,
 		disablePadding: true,
-		label: "Title",
+		label: "Name",
 	},
 	{
-		id: "status",
+		id: "font",
 		numeric: false,
 		disablePadding: true,
-		label: "Status",
+		label: "Font",
 	},
 	{
-		id: "description",
+		id: "color",
 		numeric: false,
 		disablePadding: true,
-		label: "Description",
-	},
-	{
-		id: "createdAt",
-		numeric: false,
-		disablePadding: true,
-		label: "Created Date",
-	},
-	{
-		id: "updatedAt",
-		numeric: false,
-		disablePadding: true,
-		label: "Updated date",
-	},
-	{
-		id: "author",
-		numeric: false,
-		disablePadding: true,
-		label: "Author",
+		label: "Color",
 	},
 	{
 		id: "_id",
@@ -147,14 +133,16 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 	);
 }
 
-export function PostsTable({
+export function TaxonomyTable({
 	data,
 	setAlert,
 	refetch,
+	deleteFunc,
 }: {
-	data: Array<PostInterface>;
+	data: Array<TaxonomyInterface>;
 	setAlert: React.Dispatch<React.SetStateAction<string>>;
 	refetch: any;
+	deleteFunc: (i: Array<string>) => Promise<any>;
 }) {
 	const [rows, setRows] = React.useState(data);
 	const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -167,7 +155,7 @@ export function PostsTable({
 	}, [data]);
 
 	const deleteHandler = async () => {
-		const response = await deletePosts([...selected]);
+		const response = await deleteFunc([...selected]);
 		console.log(response);
 		setAlert(response.status > 199 && response.status < 300 ? "success" : "error");
 
@@ -232,8 +220,6 @@ export function PostsTable({
 							{rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
 								const isItemSelected = isSelected(row._id);
 								const labelId = `enhanced-table-checkbox-${index}`;
-								row.createdAt = new Date(row.createdAt);
-								row.updatedAt = new Date(row.updatedAt);
 
 								return (
 									<TableRow
@@ -255,30 +241,13 @@ export function PostsTable({
 											/>
 										</TableCell>
 										<TableCell component="th" id={labelId} scope="row" padding="none">
-											{row.title}
+											{row.name}
 										</TableCell>
 										<TableCell align="left" padding="none">
-											{row.status}
+											{row.font}
 										</TableCell>
 										<TableCell align="left" padding="none">
-											{row.description}
-										</TableCell>
-										<TableCell align="left" padding="none">
-											{row.createdAt.getDate()}-
-											{row.createdAt.getMonth() + 1 > 9 ? row.createdAt.getMonth() + 1 : `0${row.createdAt.getMonth() + 1}`}-
-											{row.createdAt.getFullYear()}{" "}
-											{row.createdAt.getHours() > 9 ? row.createdAt.getHours() : `0${row.createdAt.getHours()}`}:
-											{row.createdAt.getMinutes() > 9 ? row.createdAt.getMinutes() : `0${row.createdAt.getMinutes()}`}
-										</TableCell>
-										<TableCell align="left" padding="none">
-											{row.updatedAt.getDate()}-
-											{row.updatedAt.getMonth() + 1 > 9 ? row.updatedAt.getMonth() + 1 : `0${row.updatedAt.getMonth() + 1}`}-
-											{row.updatedAt.getFullYear()}{" "}
-											{row.updatedAt.getHours() > 9 ? row.updatedAt.getHours() : `0${row.updatedAt.getHours()}`}:
-											{row.updatedAt.getMinutes() > 9 ? row.updatedAt.getMinutes() : `0${row.updatedAt.getMinutes()}`}
-										</TableCell>
-										<TableCell align="left" padding="none">
-											{row.author}
+											{row.color}
 										</TableCell>
 										<TableCell align="left" padding="none">
 											<Link href={`/posts/${row._id}`}>Edit</Link>
