@@ -55,18 +55,22 @@ export const Sidebar = ({ drawerOpen, toggleDrawer }: { drawerOpen: boolean; tog
 						<ListItemText primary="Posts" />
 					</ListItemButton>
 				</Link>
-				<ListItemButton>
-					<ListItemIcon>
-						<CategoryIcon />
-					</ListItemIcon>
-					<ListItemText primary="Categories" />
-				</ListItemButton>
-				<ListItemButton>
-					<ListItemIcon>
-						<StyleIcon />
-					</ListItemIcon>
-					<ListItemText primary="Tags" />
-				</ListItemButton>
+				<Link href="/categories">
+					<ListItemButton>
+						<ListItemIcon>
+							<CategoryIcon />
+						</ListItemIcon>
+						<ListItemText primary="Categories" />
+					</ListItemButton>
+				</Link>
+				<Link href="/tags">
+					<ListItemButton>
+						<ListItemIcon>
+							<StyleIcon />
+						</ListItemIcon>
+						<ListItemText primary="Tags" />
+					</ListItemButton>
+				</Link>
 				<Divider sx={{ my: 1 }} />
 				<ListItemButton>
 					<ListItemIcon>
