@@ -4,3 +4,8 @@ export interface TaxonomyInterface {
     font: "light" | "dark",
     color: string
 }
+
+export enum Font {
+    light = 'light',
+    dark = 'dark'
+}

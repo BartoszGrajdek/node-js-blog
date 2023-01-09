@@ -15,7 +15,7 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Link } from "@mui/material";
+import { Button, Link } from "@mui/material";
 import { deletePosts } from "../../api/posts/posts";
 import { TaxonomyInterface } from "../../types/taxonomy";
 
@@ -52,7 +52,7 @@ const headCells: readonly HeadCell[] = [
 	{
 		id: "_id",
 		numeric: false,
-		disablePadding: true,
+		disablePadding: false,
 		label: "Edit",
 	},
 ];
@@ -135,11 +135,15 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
 export function TaxonomyTable({
 	data,
+	type,
+	setEditItem,
 	setAlert,
 	refetch,
 	deleteFunc,
 }: {
 	data: Array<TaxonomyInterface>;
+	type: "tags" | "categories";
+	setEditItem: any;
 	setAlert: React.Dispatch<React.SetStateAction<string>>;
 	refetch: any;
 	deleteFunc: (i: Array<string>) => Promise<any>;
@@ -249,8 +253,8 @@ export function TaxonomyTable({
 										<TableCell align="left" padding="none">
 											{row.color}
 										</TableCell>
-										<TableCell align="left" padding="none">
-											<Link href={`/posts/${row._id}`}>Edit</Link>
+										<TableCell align="left" padding="none" onClick={() => setEditItem(row)}>
+											<Button>Edit</Button>
 										</TableCell>
 									</TableRow>
 								);

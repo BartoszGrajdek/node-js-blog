@@ -5,6 +5,8 @@ import { PostsPage } from "../pages/PostsPage";
 import { AddPostPage } from "../pages/AddPostPage";
 import { TagsPage } from "../pages/TagsPage";
 import { CategoriesPage } from "../pages/CategoriesPage";
+import { AddTagPage } from "../pages/AddTagPage";
+import { AddCategoryPage } from "../pages/AddCategoryPage";
 
 export const LocationDisplay = () => {
 	const location = useLocation();
@@ -18,6 +20,8 @@ export function MainRoutes() {
 			<Route path="/" element={<Navigate to="/dashboard" replace />} />
 			<Route path="/dashboard" element={<DashboardPage />} />
 			<Route path="/add-post" element={<AddPostPage />} />
+			<Route path="/add-tag" element={<AddTagPage />} />
+			<Route path="/add-category" element={<AddCategoryPage />} />
 			<Route path="/posts" element={<PostsPage />} />
 			<Route path="/tags" element={<TagsPage />} />
 			<Route path="/categories" element={<CategoriesPage />} />
